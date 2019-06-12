@@ -50,7 +50,7 @@ class CellTest < Minitest::Test
 
   def test_render_reveal
     @cell.place_ship(@cruiser)
-    assert_equal @cell.render, 'S'
+    assert_equal @cell.render(true), 'S'
   end
 
   def test_render_miss

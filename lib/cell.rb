@@ -26,9 +26,9 @@ class Cell
     @ship = ship
   end
 
-  def render
+  def render(reveal = false)
     case @fired_upon
-    when false && !empty?
+    when false && reveal
       'S'
     when true && empty?
       'M'
