@@ -19,7 +19,7 @@ class Cell
 
   def fire_upon
     @fired_upon = true
-    @ship.health -= 1 unless @ship.nil?
+    @ship.hit unless @ship.nil?
   end
 
   def place_ship(ship)
@@ -27,9 +27,15 @@ class Cell
   end
 
   def render
-    case self
-    when @fired_upon
-
+    case @fired_upon
+    when false
+      '.'
+    when true && empty?
+      'M'
+    when true && !@ship.sunk?
+      'H'
+    when true && @ship.sunk?
+      'X'
     end
   end
 end
