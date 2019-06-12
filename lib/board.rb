@@ -20,7 +20,7 @@ class Board
     return false if ship.length != coordinates.length
     return false if coordinates.uniq.length != coordinates.length
     return false if diagonal?(coordinates)
-    return false if overlap?(ship, coordinates)
+    # return false if overlap?(ship, coordinates)
     true
   end
 
