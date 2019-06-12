@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Cell
-  attr_accessor :coordinate, :ship, :fired_upon
+  attr_accessor :coordinate, :ship
 
   def initialize(coordinate)
     @coordinate = coordinate
@@ -28,7 +28,7 @@ class Cell
 
   def render(reveal = false)
     case @fired_upon
-    when false && reveal
+    when false && reveal && !empty?
       'S'
     when true && empty?
       'M'

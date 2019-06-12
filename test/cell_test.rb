@@ -39,7 +39,7 @@ class CellTest < Minitest::Test
 
   def test_it_has_been_hit
     @cell.fire_upon
-    assert_equal @cell.fired_upon, true
+    assert_equal @cell.fired_upon?, true
   end
 
   def test_ship_loses_health
