@@ -48,8 +48,9 @@ class CellTest < Minitest::Test
     assert_equal @cell.ship.health, 2
   end
 
-  def test_render_not_fired
-    assert_equal @cell.render, '.'
+  def test_render_reveal
+    @cell.place_ship(@cruiser)
+    assert_equal @cell.render, 'S'
   end
 
   def test_render_miss
@@ -69,5 +70,9 @@ class CellTest < Minitest::Test
     @cell.ship.hit
     @cell.ship.hit
     assert_equal @cell.render, 'X'
+  end
+
+  def test_render_not_fired
+    assert_equal @cell.render, '.'
   end
 end
