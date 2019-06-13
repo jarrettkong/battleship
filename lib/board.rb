@@ -22,16 +22,12 @@ class Board
     return false if coordinates.any? { |coord| overlap?(coord) }
     return false unless possible_coordinates.include?(coordinates)
 
-    # return false if overlap?(ship, coordinates)
     true
   end
 
   def calculate_possible_coordinates(start, length)
     letters = (start[0].ord..(start[0].ord + length - 1)).to_a.map!(&:chr)
     numbers = (start[1].to_i..(start[1].to_i + length - 1)).to_a
-
-    # letters.map!(&:chr)
-
     [
       numbers.map { |num| "#{letters[0]}#{num}" },
       letters.map { |letter| "#{letter}#{numbers[0]}" }
@@ -44,7 +40,26 @@ class Board
 
   def place(ship, coordinates)
     if valid_placement?(ship, coordinates)
-      coordinates.each { |coord| @cells[coord].ship = ship }
+      coordinates.each { |coord| @cells[coord].place_ship(ship) }
     end
+  end
+
+  def render(reveal = false)
+    rows = @cells.keys.map do |k|
+      k[1]
+    end.uniq
+    columns = @cells.keys.map do |k|
+      k[0]
+    end.uniq
+
+    display = rows.each_with_object(+"  A B C D\n") do |row, acc|
+      acc << "#{row} "
+      columns.each do |col|
+        cell = col + row
+        acc << @cells[cell].render(reveal) + ' '
+      end
+      acc << "\n"
+    end
+    puts display
   end
 end

@@ -77,4 +77,9 @@ class BoardTest < Minitest::Test
     assert_equal @board.cells['C1'].ship, @cruiser
     assert_nil @board.cells['C2'].ship
   end
+
+  def test_render
+    @board.place(@submarine, %w[C1 C2])
+    @board.render(true)
+  end
 end
