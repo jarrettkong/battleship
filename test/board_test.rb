@@ -45,6 +45,11 @@ class BoardTest < Minitest::Test
     assert_equal @board.valid_placement?(@submarine, %w[C1 B1]), false
   end
 
+  def test_valid_placement_out_of_bounds
+    assert_equal @board.valid_placement?(@cruiser, %w[A3 A4 A5]), false
+    assert_equal @board.valid_placement?(@submarine, %w[F1 G1]), false
+  end
+
   def test_valid_placement_diagonal
     assert_equal @board.valid_placement?(@cruiser, %w[A1 B2 C3]), false
     assert_equal @board.valid_placement?(@submarine, %w[C2 D3]), false
@@ -53,5 +58,9 @@ class BoardTest < Minitest::Test
   def test_valid_placement_true
     assert_equal @board.valid_placement?(@submarine, %w[A1 A2]), true
     assert_equal @board.valid_placement?(@cruiser, %w[B1 C1 D1]), true
+  end
+
+  def test_place_ship
+    
   end
 end

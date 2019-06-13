@@ -18,18 +18,17 @@ class Board
 
   def valid_placement?(ship, coordinates)
     possible_coordinates = calculate_possible_coordinates(coordinates[0], ship.length)
-    # return false if ship.length != coordinates.length
-    # return false if coordinates.uniq.length != coordinates.length
+    return false if coordinates.any? { |coord| !valid_coordinate?(coord) }
     return false unless possible_coordinates.include?(coordinates)
-
     # return false if overlap?(ship, coordinates)
     true
   end
 
   def calculate_possible_coordinates(start, length)
     letters = (start[0].downcase.ord..(start[0].downcase.ord + length - 1)).to_a
-    letters.map! { |letter| letter.chr.upcase }
     numbers = (start[1].to_i..(start[1].to_i + length - 1)).to_a
+
+    letters.map! { |letter| letter.chr.upcase }
 
     coordinates = [
       numbers.map { |num| "#{letters[0]}#{num}" },
