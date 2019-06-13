@@ -55,8 +55,7 @@ class Board
     display = rows.each_with_object(+"  A B C D\n") do |row, acc|
       acc << "#{row} "
       columns.each do |col|
-        cell = col + row
-        acc << @cells[cell].render(reveal) + ' '
+        acc << @cells[col + row].render(reveal) + ' '
       end
       acc << "\n"
     end

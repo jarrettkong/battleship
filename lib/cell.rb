@@ -26,15 +26,16 @@ class Cell
     @ship = ship
   end
 
-  def render(reveal = false)
+  def render(_reveal = false)
     case @fired_upon
     when false && reveal && !empty?
+      p empty?
       'S'
     when true && empty?
       'M'
-    when true && !@ship.sunk?
+    when true && !empty? && !@ship.sunk?
       'H'
-    when true && @ship.sunk?
+    when true && !empty && @ship.sunk?
       'X'
     else
       '.'
