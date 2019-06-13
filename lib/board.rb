@@ -21,7 +21,6 @@ class Board
     return false if coordinates.any? { |coord| !valid_coordinate?(coord) }
     return false if coordinates.any? { |coord| overlap?(coord) }
     return false unless possible_coordinates.include?(coordinates)
-
     true
   end
 

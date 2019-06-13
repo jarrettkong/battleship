@@ -28,15 +28,33 @@ class Game
     end
 
     exit if option == 'q'
+    setup
+  end
+
+  def setup
+    place_cpu_ship(@cpu_cruiser)
+    place_cpu_ship(@cpu_submarine)
+
+    puts 'The CPU has placed their ships.'
+    puts 'You may now place your ships.'
+    puts "The Crusier is 2 units long and the Submarine is 2 units long.\n\n"
+
+    place_ship(@player_cruiser)
+    place_ship(@player_submarine)
+
     play_game
   end
 
-  def play_game
-    place_cpu_ship(@cpu_cruiser)
-    place_cpu_ship(@cpu_submarine)
-    puts 'The CPU has placed their ships.'
-    puts 'You may now place your ships.'
-    puts 'The Crusier is 2 units long and the Submarine is 2 units long.'
+  def place_ship(ship)
+    puts "Where would you like to place the #{ship.name}?"
+    puts 'Type your coordinates separated by spaces ie. A1 A2 A3'
+    coordinates = gets.chomp.split(' ')
+    until @player_board.valid_placement?(ship, coordinates)
+      puts 'Those are invalid coordinates. Please try again.'
+      puts 'Type your coordinates separated by spaces ie. A1 A2 A3'
+      coordinates = gets.chomp.split(' ')
+    end
+    @player_board.place(ship, coordinates)
   end
 
   def place_cpu_ship(ship)
@@ -45,5 +63,9 @@ class Game
       coordinates = @cpu_board.cells.keys.sample(ship.length)
     end
     @cpu_board.place(ship, coordinates)
+  end
+
+  def play_game
+    
   end
 end
