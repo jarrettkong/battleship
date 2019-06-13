@@ -52,13 +52,12 @@ class Board
       k[0]
     end.uniq
 
-    display = rows.each_with_object(+"  A B C D\n") do |row, acc|
+    rows.each_with_object(+"  A B C D\n") do |row, acc|
       acc << "#{row} "
       columns.each do |col|
         acc << @cells[col + row].render(reveal) + ' '
       end
       acc << "\n"
     end
-    puts display
   end
 end

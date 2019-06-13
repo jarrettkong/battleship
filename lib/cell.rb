@@ -27,15 +27,13 @@ class Cell
   end
 
   def render(reveal = false)
-    case @fired_upon
-    when false && reveal && !empty?
-      p empty?
+    if !@fired_upon && reveal && !empty?
       'S'
-    when true && empty?
+    elsif @fired_upon && empty?
       'M'
-    when true && !empty? && !@ship.sunk?
+    elsif @fired_upon && !@ship.sunk?
       'H'
-    when true && !empty && @ship.sunk?
+    elsif @fired_upon && @ship.sunk?
       'X'
     else
       '.'

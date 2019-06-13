@@ -80,6 +80,38 @@ class BoardTest < Minitest::Test
 
   def test_render
     @board.place(@submarine, %w[C1 C2])
-    @board.render(true)
+
+    expected = "  A B C D\n1 . . . . \n2 . . . . \n3 . . . . \n4 . . . . \n"
+    assert_equal @board.render, expected
+  end
+
+  def test_render_reveal
+    @board.place(@submarine, %w[C1 C2])
+
+    expected = "  A B C D\n1 . . S . \n2 . . S . \n3 . . . . \n4 . . . . \n"
+    assert_equal @board.render(true), expected
+  end
+
+  def test_render_miss
+    @board.cells['C1'].fire_upon
+    expected = "  A B C D\n1 . . M . \n2 . . . . \n3 . . . . \n4 . . . . \n"
+    assert_equal @board.render, expected
+  end
+
+  def test_render_hit
+    @board.place(@submarine, %w[C1 C2])
+    @board.cells['C1'].fire_upon
+
+    expected = "  A B C D\n1 . . H . \n2 . . . . \n3 . . . . \n4 . . . . \n"
+    assert_equal @board.render, expected
+  end
+
+  def test_render_sunk
+    @board.place(@submarine, %w[C1 C2])
+    @board.cells['C1'].fire_upon
+    @board.cells['C2'].fire_upon
+
+    expected = "  A B C D\n1 . . X . \n2 . . X . \n3 . . . . \n4 . . . . \n"
+    assert_equal @board.render, expected
   end
 end
