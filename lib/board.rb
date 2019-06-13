@@ -19,13 +19,15 @@ class Board
   def valid_placement?(ship, coordinates)
     possible_coordinates = calculate_possible_coordinates(coordinates[0], ship.length)
     return false if coordinates.any? { |coord| !valid_coordinate?(coord) }
+    return false if coordinates.any? { |coord| overlap?(coord) }
     return false unless possible_coordinates.include?(coordinates)
+
     # return false if overlap?(ship, coordinates)
     true
   end
 
   def calculate_possible_coordinates(start, length)
-    letters = (start[0].downcase.ord..(start[0].downcase.ord + length - 1)).to_a
+    letters = (start[0].ord..(start[0].ord + length - 1)).to_a
     numbers = (start[1].to_i..(start[1].to_i + length - 1)).to_a
 
     letters.map! { |letter| letter.chr.upcase }
@@ -35,5 +37,9 @@ class Board
       letters.map { |letter| "#{letter}#{numbers[0]}" }
     ]
     coordinates
+  end
+
+  def overlap?(coordinate)
+    !@cells[coordinate].ship.nil?
   end
 end
