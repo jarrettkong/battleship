@@ -61,6 +61,20 @@ class BoardTest < Minitest::Test
   end
 
   def test_place_ship
-    
+    @board.place(@cruiser, %w[B1 C1 D1])
+    assert_equal @board.cells['B1'].ship, @cruiser
+    assert_equal @board.cells['C1'].ship, @cruiser
+    assert_equal @board.cells['D1'].ship, @cruiser
+  end
+
+  def test_place_ship_invalid
+    @board.place(@cruiser, %w[B1 C1 D1])
+    assert_equal @board.cells['B1'].ship, @cruiser
+    assert_equal @board.cells['C1'].ship, @cruiser
+    assert_equal @board.cells['D1'].ship, @cruiser
+
+    @board.place(@submarine, %w[C1 C2])
+    assert_equal @board.cells['C1'].ship, @cruiser
+    assert_nil @board.cells['C2'].ship
   end
 end
