@@ -8,12 +8,7 @@ class Game
   attr_accessor :board
 
   def initialize
-    @player_submarine = Ship.new('Submarine', 2)
-    @player_cruiser = Ship.new('Cruiser', 3)
     @player_board = Board.new
-
-    @cpu_submarine = Ship.new('Submarine', 2)
-    @cpu_cruiser = Ship.new('Cruiser', 3)
     @cpu_board = Board.new
   end
 
@@ -32,15 +27,15 @@ class Game
   end
 
   def setup
-    place_cpu_ship(@cpu_cruiser)
-    place_cpu_ship(@cpu_submarine)
+    place_cpu_ship(Ship.new('Cruiser', 3))
+    place_cpu_ship(Ship.new('Submarine', 2))
 
     puts 'The CPU has placed their ships.'
     puts 'You may now place your ships.'
     puts "The Crusier is 2 units long and the Submarine is 2 units long.\n\n"
 
-    place_ship(@player_cruiser)
-    place_ship(@player_submarine)
+    place_ship(Ship.new('Cruiser', 3))
+    place_ship(Ship.new('Submarine', 2))
 
     play_game
   end
@@ -66,6 +61,32 @@ class Game
   end
 
   def play_game
-    
+    puts @player_board.render(true), @cpu_board.render
+    winner = nil
+    while board_has_ships
+      puts 'Where would you like to attack?'
+      coordinate = gets.chomp
+
+      unless @cpu_board.valid_coordinate?(coordinate)
+        puts 'Invalid coordinate.'
+        next
+      end
+
+      @cpu_board.cells[coordinate].fire_upon
+      cpu_attack
+      puts @player_board.render(true), @cpu_board.render
+    end
+    puts 'GAME OVER'
+  end
+
+  def cpu_attack
+    coordinate = @player_board.cells.keys.sample
+    @player_board.cells[coordinate].fire_upon
+  end
+
+  def board_has_ships
+    player_has_ships = @player_board.cells.any? { |_, cell| !cell.ship&.sunk? }
+    cpu_has_ships = @cpu_board.cells.any? { |_, cell| !cell.ship&.sunk? }
+    player_has_ships && cpu_has_ships
   end
 end
