@@ -54,12 +54,4 @@ class BoardTest < Minitest::Test
     assert_equal @board.valid_placement?(@submarine, %w[A1 A2]), true
     assert_equal @board.valid_placement?(@cruiser, %w[B1 C1 D1]), true
   end
-
-  def test_diagonal
-    assert_equal @board.diagonal?(%w[A1 B2 C3]), true
-    assert_equal @board.diagonal?(%w[C2 D3]), true
-    assert_equal @board.diagonal?(%w[A1 A2 A3]), false
-    assert_equal @board.diagonal?(%w[A1 A2 B3]), false
-    assert_equal @board.diagonal?(%w[A1 B1 C1]), false
-  end
 end
