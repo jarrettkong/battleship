@@ -26,7 +26,7 @@ class Cell
     @ship = ship
   end
 
-  def render(_reveal = false)
+  def render(reveal = false)
     case @fired_upon
     when false && reveal && !empty?
       p empty?
