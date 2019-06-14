@@ -2,9 +2,9 @@
 
 require_relative('./game')
 
-def start_game
+def run
   game = Game.new
   game.start
 end
 
-start_game
+run
