@@ -17,7 +17,7 @@ class Player
   def attack(player, coordinate)
     player.board.cells[coordinate].fire_upon
     @shot_history << coordinate
-    "You have attacked #{coordinate}. #{determine_attack(player.board, coordinate)}."
+    "You have attacked #{coordinate}. #{determine_attack(player.board, coordinate)}"
   end
 
   def determine_attack(board, coordinate)

@@ -41,11 +41,11 @@ class Game
 
   def place_ship(ship)
     puts "\nWhere would you like to place the #{ship.name} (#{ship.length} spaces)?"
-    puts 'Type your coordinates separated by spaces ie. A1 A2 A3'
+    puts 'Type your coordinates ascending separated by spaces ie. A1 A2 A3'
     coordinates = gets.chomp.split(' ')
     until @player.board.valid_placement?(ship, coordinates)
       puts "\nThose are invalid coordinates. Please try again."
-      puts 'Type your coordinates separated by spaces ie. A1 A2 A3'
+      puts 'Type your coordinates ascending separated by spaces ie. A1 A2 A3'
       coordinates = gets.chomp.split(' ')
     end
     @player.place_ship(ship, coordinates)
@@ -55,7 +55,7 @@ class Game
     render
     while @player.has_ships? && @cpu.has_ships?
       puts "\nWhere would you like to attack?"
-      coordinate = gets.chomp
+      coordinate = gets.chomp.upcase
 
       unless @cpu.board.valid_coordinate?(coordinate)
         puts 'Invalid coordinate.'
