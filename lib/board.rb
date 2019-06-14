@@ -51,7 +51,7 @@ class Board
       k[0]
     end.uniq
 
-    rows.each_with_object(+"  A B C D\n") do |row, acc|
+    rows.inject(+"  #{columns.join(' ')}\n") do |acc, row|
       acc << "#{row} "
       columns.each do |col|
         acc << @cells[col + row].render(reveal) + ' '
