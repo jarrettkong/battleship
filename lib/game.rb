@@ -10,6 +10,9 @@ class Game
   def initialize
     @player_board = Board.new
     @cpu_board = Board.new
+
+    @player_used_coordinates = []
+    @cpu_used_coordinates = []
   end
 
   def start
@@ -73,11 +76,14 @@ class Game
 
       @cpu_board.cells[coordinate].fire_upon
       puts "You have attacked #{coordinate}."
+      puts "You have already attacked #{coordinate}" if @player_used_coordinates.include?(coordinate)
+      @player_used_coordinates << coordinate unless @player_used_coordinates.include?(coordinate)
       determine_attack(@cpu_board, coordinate)
       cpu_attack
       render
     end
     determine_winner
+    start
   end
 
   def render
@@ -89,7 +95,11 @@ class Game
 
   def cpu_attack
     coordinate = @player_board.cells.keys.sample
+    while @cpu_used_coordinates.include?(coordinate)
+      coordinate = @player_board.cells.keys.sample
+    end
     @player_board.cells[coordinate].fire_upon
+    @cpu_used_coordinates << coordinate
     puts "\nThe CPU has attacked #{coordinate}."
     puts determine_attack(@player_board, coordinate)
   end
@@ -111,10 +121,12 @@ class Game
 
   def determine_winner
     puts "\nGAME OVER"
-    if board_has_ships(@player_board)
-      puts 'You have won!'
+    if !board_has_ships(@player_board) && !board_has_ships(@cpu_board)
+      puts "It's a tie!\n\n"
+    elsif board_has_ships(@player_board)
+      puts "You have won!\n\n"
     else
-      puts 'The CPU has won!'
+      puts "The CPU has won!\n\n"
     end
   end
 end
