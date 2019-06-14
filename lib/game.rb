@@ -30,9 +30,9 @@ class Game
     place_cpu_ship(Ship.new('Cruiser', 3))
     place_cpu_ship(Ship.new('Submarine', 2))
 
-    puts 'The CPU has placed their ships.'
+    puts "\nThe CPU has placed their ships."
     puts 'You may now place your ships.'
-    puts "The Crusier is 2 units long and the Submarine is 2 units long.\n\n"
+    puts 'The Crusier is 2 units long and the Submarine is 2 units long.'
 
     place_ship(Ship.new('Cruiser', 3))
     place_ship(Ship.new('Submarine', 2))
@@ -41,11 +41,11 @@ class Game
   end
 
   def place_ship(ship)
-    puts "Where would you like to place the #{ship.name}?"
+    puts "\nWhere would you like to place the #{ship.name} (#{ship.length} spaces)?"
     puts 'Type your coordinates separated by spaces ie. A1 A2 A3'
     coordinates = gets.chomp.split(' ')
     until @player_board.valid_placement?(ship, coordinates)
-      puts 'Those are invalid coordinates. Please try again.'
+      puts "\nThose are invalid coordinates. Please try again."
       puts 'Type your coordinates separated by spaces ie. A1 A2 A3'
       coordinates = gets.chomp.split(' ')
     end
@@ -61,10 +61,9 @@ class Game
   end
 
   def play_game
-    puts @player_board.render(true), @cpu_board.render
-    winner = nil
+    render
     while board_has_ships
-      puts 'Where would you like to attack?'
+      puts "\nWhere would you like to attack?"
       coordinate = gets.chomp
 
       unless @cpu_board.valid_coordinate?(coordinate)
@@ -74,19 +73,32 @@ class Game
 
       @cpu_board.cells[coordinate].fire_upon
       cpu_attack
-      puts @player_board.render(true), @cpu_board.render
+      render
     end
-    puts 'GAME OVER'
+    puts "\nGAME OVER"
+  end
+
+  def render
+    puts "\n======== Player ========"
+    puts @player_board.render(true)
+    puts "\n======== CPU ========"
+    puts @cpu_board.render
   end
 
   def cpu_attack
     coordinate = @player_board.cells.keys.sample
     @player_board.cells[coordinate].fire_upon
+    puts "\nThe CPU has attacked #{coordinate}."
+    puts determine_attack(@player_board, coordinate)
+  end
+
+  def determine_attack(board, coordinate)
+    @player_board.
   end
 
   def board_has_ships
-    player_has_ships = @player_board.cells.any? { |_, cell| !cell.ship&.sunk? }
-    cpu_has_ships = @cpu_board.cells.any? { |_, cell| !cell.ship&.sunk? }
+    player_has_ships = @player_board.cells.any? { |_, cell| !cell.ship&.sunk? && !cell.ship.nil? }
+    cpu_has_ships = @cpu_board.cells.any? { |_, cell| !cell.ship&.sunk? && !cell.ship.nil? }
     player_has_ships && cpu_has_ships
   end
 end
