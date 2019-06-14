@@ -72,6 +72,8 @@ class Game
       end
 
       @cpu_board.cells[coordinate].fire_upon
+      puts "You have attacked #{coordiante}."
+      determine_attack(@cpu_board, coordinate)
       cpu_attack
       render
     end
@@ -79,7 +81,7 @@ class Game
   end
 
   def render
-    puts "\n======== Player ========"
+    puts '======== Player ========'
     puts @player_board.render(true)
     puts "\n======== CPU ========"
     puts @cpu_board.render
@@ -93,7 +95,14 @@ class Game
   end
 
   def determine_attack(board, coordinate)
-    @player_board.
+    case board.cells[coordinate].render
+    when 'M'
+      puts 'The attack missed.'
+    when 'H'
+      puts 'The attack hit.'
+    when 'X'
+      puts 'The attack hit and the ship was sunk.'
+    end
   end
 
   def board_has_ships
