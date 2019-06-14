@@ -54,7 +54,7 @@ class Board
     rows.inject(+"  #{columns.join(' ')}\n") do |acc, row|
       acc << "#{row} "
       columns.each do |col|
-        acc << @cells[col + row].render(reveal) + ' '
+        acc << "#{@cells[col + row].render(reveal)} "
       end
       acc << "\n"
     end
