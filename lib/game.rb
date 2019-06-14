@@ -84,7 +84,7 @@ class Game
     puts '======== Player ========'
     puts @player_board.render(true)
     puts "\n======== CPU ========"
-    puts @cpu_board.render(true)
+    puts @cpu_board.render
   end
 
   def cpu_attack
