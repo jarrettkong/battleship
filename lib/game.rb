@@ -6,17 +6,10 @@ require_relative('./player')
 require_relative('./cpu')
 
 class Game
-  # attr_accessor :board
 
   def initialize
     @player = Player.new
     @cpu = CPU.new
-
-    # @player_board = Board.new
-    # @cpu_board = Board.new
-
-    # @player_used_coordinates = []
-    # @cpu_used_coordinates = []
   end
 
   def start
@@ -26,7 +19,7 @@ class Game
 
     while option != 'p' && option != 'q'
       puts 'Enter p to play. Enter q to quit.'
-      option = gets.chomp
+      option = gets.chomp.downcase
     end
 
     exit if option == 'q'
@@ -70,11 +63,13 @@ class Game
         next
       end
 
+      if @player.shot_history.include?(coordinate)
+        puts "You have already attacked #{coordinate}"
+        next
+      end
+      
       puts @player.attack(@cpu, coordinate)
-      puts "You have attacked #{coordinate}."
-      puts "You have already attacked #{coordinate}" if @player.shot_history.include?(coordinate)
-      @player.shot_history << coordinate unless @player.shot_history.include?(coordinate)
-      cpu_attack
+      puts @cpu.attack(@player)
       render
     end
     determine_winner
@@ -82,20 +77,10 @@ class Game
   end
 
   def render
-    puts '======== Player ========'
+    puts "\n======== Player ========"
     puts @player.board.render(true)
     puts "\n======== CPU ========"
-    puts @cpu.board.render(true)
-  end
-
-  def cpu_attack
-    coordinate = @player.board.cells.keys.sample
-    while @cpu.shot_history.include?(coordinate)
-      coordinate = @player.board.cells.keys.sample
-    end
-    puts @cpu.attack(@player, coordinate)
-    @cpu.shot_history << coordinate
-    puts "\nThe CPU has attacked #{coordinate}."
+    puts @cpu.board.render
   end
 
   def determine_winner

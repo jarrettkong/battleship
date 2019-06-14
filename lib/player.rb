@@ -16,17 +16,18 @@ class Player
 
   def attack(player, coordinate)
     player.board.cells[coordinate].fire_upon
-    determine_attack(player.board, coordinate)
+    @shot_history << coordinate
+    "You have attacked #{coordinate}. #{determine_attack(player.board, coordinate)}."
   end
 
   def determine_attack(board, coordinate)
     case board.cells[coordinate].render
     when 'M'
-      return 'The attack missed.'
+      return "The attack missed."
     when 'H'
-      return 'The attack hit.'
+      return "The attack hit."
     when 'X'
-      return 'The attack hit and the ship was sunk.'
+      return "The attack hit and the ship was sunk."
     end
   end
 
