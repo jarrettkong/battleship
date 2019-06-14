@@ -62,7 +62,7 @@ class Game
 
   def play_game
     render
-    while board_has_ships
+    while board_has_ships(@player_board) && board_has_ships(@cpu_board)
       puts "\nWhere would you like to attack?"
       coordinate = gets.chomp
 
@@ -72,19 +72,19 @@ class Game
       end
 
       @cpu_board.cells[coordinate].fire_upon
-      puts "You have attacked #{coordiante}."
+      puts "You have attacked #{coordinate}."
       determine_attack(@cpu_board, coordinate)
       cpu_attack
       render
     end
-    puts "\nGAME OVER"
+    determine_winner
   end
 
   def render
     puts '======== Player ========'
     puts @player_board.render(true)
     puts "\n======== CPU ========"
-    puts @cpu_board.render
+    puts @cpu_board.render(true)
   end
 
   def cpu_attack
@@ -105,9 +105,16 @@ class Game
     end
   end
 
-  def board_has_ships
-    player_has_ships = @player_board.cells.any? { |_, cell| !cell.ship&.sunk? && !cell.ship.nil? }
-    cpu_has_ships = @cpu_board.cells.any? { |_, cell| !cell.ship&.sunk? && !cell.ship.nil? }
-    player_has_ships && cpu_has_ships
+  def board_has_ships(board)
+    board.cells.any? { |_, cell| !cell.ship&.sunk? && !cell.ship.nil? }
+  end
+
+  def determine_winner
+    puts "\nGAME OVER"
+    if board_has_ships(@player_board)
+      puts 'You have won!'
+    else
+      puts 'The CPU has won!'
+    end
   end
 end
