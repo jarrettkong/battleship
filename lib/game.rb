@@ -40,6 +40,7 @@ class Game
   end
 
   def place_ship(ship)
+    render(true)
     coordinates = nil
     puts "\nWhere would you like to place the #{ship.name} (#{ship.length} spaces)?"
     loop do
@@ -76,11 +77,11 @@ class Game
     start
   end
 
-  def render
+  def render(hidden = false)
     puts "\n======== Player ========"
     puts @player.board.render(true)
-    puts "\n======== CPU ========"
-    puts @cpu.board.render
+    puts "\n======== CPU ========" unless hidden
+    puts @cpu.board.render unless hidden
   end
 
   def determine_winner

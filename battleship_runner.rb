@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative('./game')
+require './lib/game'
 
 def run
   game = Game.new

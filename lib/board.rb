@@ -6,11 +6,16 @@ class Board
   attr_accessor :cells
 
   def initialize(size = 4)
-    @size = size
-    @cells = {}
+    numbers = (1..size).to_a
+    letters = ('A'.ord..('A'.ord + size - 1)).to_a.map(&:chr)
 
-    @keys = %w[A1 A2 A3 A4 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4].freeze
-    @keys.map { |cell| @cells[cell] = Cell.new(cell) }
+    @cells = letters.inject({}) do |acc, letter|
+      numbers.each do |num|
+        coordinate = letter + num.to_s
+        acc[coordinate] = Cell.new(coordinate)
+      end
+      acc
+    end
   end
 
   def valid_coordinate?(coordinate)
