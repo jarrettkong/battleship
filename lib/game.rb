@@ -54,7 +54,7 @@ class Game
 
   def play_game
     render
-    while @player.has_ships? && @cpu.has_ships?
+    while @player.ships? && @cpu.ships?
       puts "\nWhere would you like to attack?"
       coordinate = gets.chomp.upcase
 
@@ -85,9 +85,9 @@ class Game
 
   def determine_winner
     puts "\nGAME OVER"
-    if !@player.has_ships? && !@cpu.has_ships?
+    if !@player.ships? && !@cpu.ships?
       puts "It's a tie!\n\n"
-    elsif @player.has_ships?
+    elsif @player.ships?
       puts "You have won!\n\n"
     else
       puts "The CPU has won!\n\n"

@@ -9,7 +9,7 @@ class Player
     @board = Board.new
     @shot_history = []
   end
-  
+
   def place_ship(ship, coordinates)
     @board.place(ship, coordinates)
   end
@@ -23,15 +23,15 @@ class Player
   def determine_attack(board, coordinate)
     case board.cells[coordinate].render
     when 'M'
-      return "The attack missed."
+      'The attack missed.'
     when 'H'
-      return "The attack hit."
+      'The attack hit.'
     when 'X'
-      return "The attack hit and the ship was sunk."
+      'The attack hit and the ship was sunk.'
     end
   end
 
-  def has_ships?
+  def ships?
     @board.cells.any? { |_, cell| !cell.ship&.sunk? && !cell.ship.nil? }
   end
 end

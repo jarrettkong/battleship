@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require_relative './player'
 
 class CPU < Player
-  
   def initialize
     super
   end
@@ -23,5 +24,4 @@ class CPU < Player
     @shot_history << coordinate
     "The CPU has attacked #{coordinate}. #{determine_attack(player.board, coordinate)}"
   end
-
 end
