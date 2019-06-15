@@ -21,6 +21,7 @@ class Board
     return false if coordinates.any? { |coord| !valid_coordinate?(coord) }
     return false if coordinates.any? { |coord| overlap?(coord) }
     return false unless possible_coordinates.include?(coordinates)
+
     true
   end
 
@@ -38,9 +39,7 @@ class Board
   end
 
   def place(ship, coordinates)
-    if valid_placement?(ship, coordinates)
-      coordinates.each { |coord| @cells[coord].place_ship(ship) }
-    end
+    coordinates.each { |coord| @cells[coord].place_ship(ship) } if valid_placement?(ship, coordinates)
   end
 
   def render(reveal = false)
