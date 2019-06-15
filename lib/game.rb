@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-require_relative('./ship')
-require_relative('./player')
-require_relative('./cpu')
+require_relative './ship'
+require_relative './player'
+require_relative './cpu'
 
 class Game
-
   def initialize
     @player = Player.new
     @cpu = CPU.new
   end
 
   def start
+    option = nil
     puts 'Welcome to BATTLESHIP'
-    puts 'Enter p to play. Enter q to quit.'
-    option = gets.chomp.downcase
-
-    while option != 'p' && option != 'q'
+    loop do
       puts 'Enter p to play. Enter q to quit.'
       option = gets.chomp.downcase
+      break if %w[p q].include?(option)
+
+      puts 'Invalid option.'
     end
 
     exit if option == 'q'
@@ -40,13 +40,14 @@ class Game
   end
 
   def place_ship(ship)
+    coordinates = nil
     puts "\nWhere would you like to place the #{ship.name} (#{ship.length} spaces)?"
-    puts 'Type your coordinates ascending separated by spaces ie. A1 A2 A3'
-    coordinates = gets.chomp.split(' ')
-    until @player.board.valid_placement?(ship, coordinates)
-      puts "\nThose are invalid coordinates. Please try again."
+    loop do
       puts 'Type your coordinates ascending separated by spaces ie. A1 A2 A3'
       coordinates = gets.chomp.split(' ')
+      break if @player.board.valid_placement?(ship, coordinates)
+
+      puts "\nThose are invalid coordinates. Please try again."
     end
     @player.place_ship(ship, coordinates)
   end
@@ -66,7 +67,7 @@ class Game
         puts "You have already attacked #{coordinate}"
         next
       end
-      
+
       puts @player.attack(@cpu, coordinate)
       puts @cpu.attack(@player)
       render
