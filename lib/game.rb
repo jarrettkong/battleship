@@ -5,9 +5,9 @@ require_relative './player'
 require_relative './cpu'
 
 class Game
-  def initialize
-    @player = Player.new
-    @cpu = CPU.new
+  def initialize(size = 4)
+    @player = Player.new(size)
+    @cpu = CPU.new(size)
   end
 
   def start
@@ -31,7 +31,7 @@ class Game
 
     puts "\nThe CPU has placed their ships."
     puts 'You may now place your ships.'
-    puts 'The Crusier is 2 units long and the Submarine is 2 units long.'
+    puts 'The Crusier is 3 units long and the Submarine is 2 units long.'
 
     place_ship(Ship.new('Cruiser', 3))
     place_ship(Ship.new('Submarine', 2))

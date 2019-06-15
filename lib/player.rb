@@ -5,8 +5,8 @@ require_relative('./board')
 class Player
   attr_accessor :board, :shot_history
 
-  def initialize
-    @board = Board.new
+  def initialize(size)
+    @board = Board.new(size)
     @shot_history = []
   end
 

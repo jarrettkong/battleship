@@ -3,8 +3,8 @@
 require_relative './player'
 
 class CPU < Player
-  def initialize
-    super
+  def initialize(size)
+    super(size)
   end
 
   def place_ship(ship)
