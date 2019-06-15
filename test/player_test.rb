@@ -32,23 +32,47 @@ class PlayerTest < Minitest::Test
     assert_includes @player.shot_history, 'D1'
   end
 
-  def test_determine_attack_miss
+  def test_attack_output
+    result = @player.attack(@opponent, 'D1')
+    assert_equal @opponent.board.cells['D1'].fired_upon?, true
+  end
+
+  def test_attack_miss
     expected = 'You have attacked A1. The attack missed.'
     result = @player.attack(@opponent, 'A1')
     assert_equal result, expected
   end
 
-  def test_determine_attack_hit
+  def test_attack_hit
     expected = 'You have attacked D1. The attack hit.'
     result = @player.attack(@opponent, 'D1')
     assert_equal result, expected
   end
 
-  def test_determine_attack_sunk
+  def test_attack_sunk
     expected = 'You have attacked D2. The attack hit and the ship was sunk.'
     @player.attack(@opponent, 'D1')
     result = @player.attack(@opponent, 'D2')
     assert_equal result, expected
+  end
+
+  def test_determine_winner_miss
+    @player.attack(@opponent, 'A1')
+    result = @player.determine_attack(@opponent.board, 'A1')
+    assert_equal result, 'The attack missed.'
+  end
+
+  def test_determine_winner_hit
+    @player.attack(@opponent, 'D1')
+    result = @player.determine_attack(@opponent.board, 'D1')
+    assert_equal result, 'The attack hit.'
+  end
+
+  def test_determine_winner_sunk
+    @player.attack(@opponent, 'D1')
+    @player.attack(@opponent, 'D2')
+    result = @player.determine_attack(@opponent.board, 'D2')
+    assert_equal result, 'The attack hit and the ship was sunk.'
   end
 
   def test_ships_true
@@ -56,7 +80,7 @@ class PlayerTest < Minitest::Test
   end
 
   def test_ships_false
-    @new_player = Player.new    
+    @new_player = Player.new
     assert_equal @new_player.ships?, false
   end
 end
