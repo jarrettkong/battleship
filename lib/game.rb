@@ -5,9 +5,9 @@ require_relative './player'
 require_relative './cpu'
 
 class Game
-  def initialize(size = 4)
-    @player = Player.new(size)
-    @cpu = CPU.new(size)
+  def initialize
+    @player = Player.new
+    @cpu = CPU.new
   end
 
   def start

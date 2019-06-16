@@ -5,9 +5,9 @@ require_relative './cell'
 class Board
   attr_accessor :cells
 
-  def initialize(size = 4)
-    numbers = (1..size).to_a
-    letters = ('A'.ord..('A'.ord + size - 1)).to_a.map(&:chr)
+  def initialize
+    numbers = (1..4).to_a
+    letters = ('A'..'D').to_a
 
     @cells = letters.inject({}) do |acc, letter|
       numbers.each do |num|
